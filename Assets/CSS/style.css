@@ -1,0 +1,10 @@
+/* Makes it so there's no underline under the hyperlink */
+/* a {
+    text-decoration: none;
+  } */
+
+/* Media Query Example */
+/* @media screen and (max-width: 992px) {
+  h2 {
+      font-size: 200%;
+  } */
