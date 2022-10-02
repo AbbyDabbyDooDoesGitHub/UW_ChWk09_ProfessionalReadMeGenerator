@@ -1,5 +1,6 @@
 // TODO: Include packages needed for this application
 const inquirer = require("inquirer");
+var ui = new inquirer.ui.BottomBar();
 
 // TODO: Create an array of questions for user input
 const questions = [];
@@ -12,45 +13,34 @@ function init() {
 
     inquirer.prompt([
         {
-            name: 'greeting',
-            message: 'What would you like to say?',
-            type: 'confirm'
+            name: 'confirmNew',
+            message: 'Would you like to generate a new README.md?',
+            type: 'confirm',
+            default: false
         }
     ])
-    .then(function(answer){
-        console.log(answer);
+    .then((answers) => {
+        console.log(`Hello ${answers.confirmNew}!`);
+        var confirmNew_A = answers.confirmNew;
+        if (confirmNew_A === true) {
+            getInfo();
+        } else {
+            console.log(confirmNew_A);
+            console.log("Okay! Run index.js again when you are ready to generate a README.md");
+        }
     });
 
-
-    // test();
-    // getInfo();
 }
 
-
-function test () {
-    inquirer.prompt([
-        {
-        name: 'greeting',
-        message: 'What would you like to say?',
-        type: 'input'
-        }])
-        .then(function(answer){
-        console.log(answer);
-        });
-}
 
 function getInfo () {
-    inquirer.prompt([
-        {
-        name: 'greeting',
-        message: 'What would you like to say?',
-        type: 'confirm'
-        }])
-        .then(function(answer){
-        console.log(answer);
-        });
+    console.log("getinfo ran");
+
 }
 
+// function writeMe(writeThis){
+//     console.log(writeThis);
+// }
 
 // Function call to initialize app
 init();
@@ -74,6 +64,8 @@ init();
 //   });
 
 
+
+
 // var prompt = inquirer.createPromptModule();
 
 // prompt(questions).then(/* ... */);
@@ -95,3 +87,19 @@ init();
 //     14 console.log(answer.greeting);
 //     15 console.log(answer.colors);
 //     16 });
+
+
+
+
+// var ui = new inquirer.ui.BottomBar();
+
+// // pipe a Stream to the log zone
+// outputStream.pipe(ui.log);
+
+// // Or simply write output
+// ui.log.write('something just happened.');
+// ui.log.write('Almost over, standby!');
+
+// // During processing, update the bottom bar content to display a loader
+// // or output a progress bar, etc
+// ui.updateBottomBar('new bottom bar content');
