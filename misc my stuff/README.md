@@ -74,12 +74,16 @@ I enter my email address > this is added to the section of the README entitled Q
 
 I click on the links in the Table of Contents > I am taken to the corresponding section of the README
 
-<!-- ## Resources Used 
+## Resources Used 
 
-Use this area to list referenced apis, etc -->
+### Helpful Resources
+- [Use Inquirer.js to Create a Conversational CLI User Interface by Janne Kemppainen](https://pakstech.com/blog/inquirer-js/)
+- [Inquirer.js: A collection of common interactive command line user interfaces](https://www.npmjs.com/package/inquirer/v/8.2.4#prompt)
+- [Basic writing and formatting syntax: Create sophisticated formatting for your prose and code on GitHub with simple syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+- [How to use Inquirer.js by Mat Wilmot](https://javascript.plainenglish.io/how-to-inquirer-js-c10a4e05ef1f)
+- [How to use the Inquirer Node package by Jon Deavers](https://www.educative.io/answers/how-to-use-the-inquirer-node-package)
 
-
-<!-- 
+<!--  
 # 09 Node.js Challenge: Professional README Generator
 
 ## Your Task
