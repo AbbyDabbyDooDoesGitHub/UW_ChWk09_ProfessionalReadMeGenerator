@@ -13,7 +13,6 @@ var description_A;
 var directory_YN = false;
 var installation_A;
 var usage_A;
-var simpleSelected
 var license_A;
 var contributing_A;
 var tests_A;
@@ -68,8 +67,8 @@ const reqQuestions = [
             "Attribution 4.0 International",
             "Attribution-ShareAlike 4.0 International",
             "Attribution-NonCommercial 4.0 International",
-            "Attribution-NoDerivates 4.0 International",
-            "Attribution-NonCommmercial-ShareAlike 4.0 International",
+            "Attribution-NoDerivatives 4.0 International",
+            "Attribution-NonCommercial-ShareAlike 4.0 International",
             "Attribution-NonCommercial-NoDerivatives 4.0 International",
         ],
         when(answers) {
@@ -228,10 +227,8 @@ function init() {
               var license_complex = answers.license.lBSD + answers.license.CreativeCommons + answers.license.lGNU + answers.license.OrgForEthicalSrc + answers.license.OpenDataCommons + answers.license.Perl;
         
               if (license_complex == "" || license_complex == null || license_complex == undefined) {
-                simpleSelected = true;
                 license_A = license_simple;
               } else {
-                simpleSelected = false;
                 license_A = license_complex;
               }
         
