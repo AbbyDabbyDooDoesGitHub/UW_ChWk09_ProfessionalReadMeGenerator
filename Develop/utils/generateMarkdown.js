@@ -1,16 +1,10 @@
-// VARS
-var copyrightYear;
-var copyrightOwnerName;
-
-// LICENSE ARRAYS -------------------------------------
+// LICENSE ARRAY --------------------------------------
 // [
-//   ANSWER SELECTED,
-//   WHAT TO CALL THIS, 
-//   BADGE, EXTRA BADGE, WEB LINK,
-//   [NEEDED EXTRA Q'S], 
-//   [BOILERPLATE STUFF],
+//   0 ANSWER SELECTED,
+//   1 WHAT TO CALL THIS, 
+//   2 BADGE, 3 EXTRA BADGE, 4 WEB LINK,
 // ]
-var license_A_InfoArray = [
+var license_A_Array = [
 
   [
     "SKIP THIS PART - Proceed with No License",
@@ -223,30 +217,108 @@ var license_A_InfoArray = [
 
     "[![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic_2.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)", "", "https://dev.perl.org/licenses/artistic.html",
   ],
+
 ];
 
+var license_Name;
+var license_Badge;
+var license_Link;
+var license_Section;
 
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
-function renderLicenseBadge(license) {}
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {}
+function renderLicenseInfo(license) {
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {
+  for (let i = 0; i < license_A_Array.length; i++) {
 
-  var licenseText = "Licensed under the " + licenseName + " (the \"License\")\; you may not use this file except in compliance with the License. You may obtain a copy of the License at \n\n" + webLink + "\n\nSee the License for the specific language governing permissions and limitations under the License.";
+    if (license === license_A_Array[i][0]) {
+
+      license_Name  = license_A_Array[i][1];
+      license_Badge = license_A_Array[i][2] + " " + license_A_Array[i][3];
+      license_Link  = license_A_Array[i][4];
+      
+      if (license_Name === "") {
+
+        license_Section = "";
+
+      } else {
+
+        license_Section = "Licensed under the " + license_Name + " (the \"License\")\; you may not use this file except in compliance with the License. You may obtain a copy of the License at \n\n" + license_Link + "\n\nSee the License for the specific language governing permissions and limitations under the License.";
+
+      }
+
+    }
+
+  }
 
 }
 
+
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
-  return `# ${data.title}
+
+  // const data_Array = [
+  //   0 title_A, 
+  //   1 description_A, 
+  //   2 directory_YN, 
+  //   3 installation_A, 
+  //   4 usage_A, 
+  //   5 license_A, 
+  //   6 contributing_A, 
+  //   7 tests_A, 
+  //   8 gitHubUser_A,
+  //   9 email_A,
+  // ];
+
+  // renderLicenseInfo(data[5]);
+
+  return `# 
 
 `;
+  
+
+
+//   return `# ${data[0]}
+//   I enter my project title > this is displayed as the title of the README
+//   ## Description
+//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
+  
+//   ## Table of Contents  
+//   //   0 title_A, 
+//   //   1 description_A, 
+//   //   2 directory_YN, 
+//   //   3 installation_A, 
+//   //   4 usage_A, 
+//   //   5 license_A, 
+//   //   6 contributing_A, 
+//   //   7 tests_A, 
+//   //   8 gitHubUser_A,
+//   //   9 email_A,
+  
+//   The anchor link for that heading is the lowercase heading name with dashes where there are spaces. You can always get the anchor name by visiting the README on Github.com and clicking on the anchor that appears when you hover to the left of the heading. Copy everything starting at the #:
+//   #real-cool-heading
+  
+//   Wherever you want to link to your Real Cool Heading section, put your desired text in brackets, followed by the anchor link in parentheses:
+//   [Go to Real Cool Heading section](#real-cool-heading) -->
+  
+//   ## Installation
+//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
+  
+//   ## Usage
+//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
+  
+//   ## License
+//   I choose a license for my application from a list of options > a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
+  
+//   ## Contributing
+//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
+  
+//   ## Tests
+//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
+  
+//   ## Questions
+//   I enter my GitHub username > this is added to the section of the README entitled Questions, with a link to my GitHub profile
+//   I enter my email address > this is added to the section of the README entitled Questions, with instructions on how to reach me with additional questions
+// `;
 } 
 
 module.exports = generateMarkdown;

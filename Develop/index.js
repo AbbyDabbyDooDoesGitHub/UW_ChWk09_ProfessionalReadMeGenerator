@@ -19,6 +19,8 @@ var tests_A;
 var gitHubUser_A;
 var email_A;
 
+const data_Array = [title_A, description_A, directory_YN, installation_A, usage_A, license_A, contributing_A, tests_A, gitHubUser_A,email_A,];
+
 // QUESTION ARRAY FOR USER INPUT (REQ) ----------------
 const reqQuestions = [
     {
@@ -254,7 +256,10 @@ function init() {
 
 // GET OPTIONAL INFO FOR README
 function getOptionalInfo (array) {
-    
+
+    // MAKE SURE ARRAY RESPONSE IS EMPTY TO START
+    license_Response = [];
+
     // CREATE EMPTY ARRAY FOR OPT QUESTIONS
     const optQuestions = [];
 
@@ -298,10 +303,21 @@ function getOptionalInfo (array) {
         }
     });
 
+    // GET TEXT FROM OTHER JS FILE
+    // const readme_Text = genMd(data_Array);
+
+    // INIT FUNCTION FOR WRITING FILE
+    // writeToFile("README.md", readme_Text);
+    writeToFile("README.md", `readme_Text`);
+
 }
 
 
 // WRITE README FILE
 function writeToFile(fileName, data) {
+
+    // Creates the filename specified inside of the output folder and console logs event on completion
+    fs.writeFile(`./app_output/${fileName}`), data, (err) =>
+    err ? console.error(err) : console.log("File created in the app_output folder!");
 
 }
