@@ -19,7 +19,6 @@ var tests_A;
 var gitHubUser_A;
 var email_A;
 
-const data_Array = [title_A, description_A, directory_YN, installation_A, usage_A, license_A, contributing_A, tests_A, gitHubUser_A,email_A,];
 
 // QUESTION ARRAY FOR USER INPUT (REQ) ----------------
 const reqQuestions = [
@@ -216,7 +215,7 @@ function init() {
             // GET INFO FOR README
             inquirer.prompt(reqQuestions)
             .then((answers) => {
-              console.log(JSON.stringify(answers, null, 2));
+            //   console.log(JSON.stringify(answers, null, 2));
         
               title_A = answers.title;
               description_A = answers.description;
@@ -257,8 +256,10 @@ function init() {
 // GET OPTIONAL INFO FOR README
 function getOptionalInfo (array) {
 
+    var readme_Text;
+
     // MAKE SURE ARRAY RESPONSE IS EMPTY TO START
-    license_Response = [];
+    // license_Response = [];
 
     // CREATE EMPTY ARRAY FOR OPT QUESTIONS
     const optQuestions = [];
@@ -285,6 +286,8 @@ function getOptionalInfo (array) {
         }
     }
 
+    // console.log(optQuestions);
+
     // ASK OPTIONAL QUESTIONS
     inquirer.prompt(optQuestions)
     .then((answers) => {
@@ -301,23 +304,45 @@ function getOptionalInfo (array) {
         } else {
             console.log(error)
         }
+    })
+    .then((answers) => {
+        var data_Array = [title_A, description_A, directory_YN, installation_A, usage_A, license_A, contributing_A, tests_A, gitHubUser_A,email_A,];
+
+        console.log(data_Array);
+
+        readme_Text = genMd(data_Array);
+        // writeToFile("README.md", readme_Text);
+
+    })
+    .then((answers) => {
+        // var data_Array = [title_A, description_A, directory_YN, installation_A, usage_A, license_A, contributing_A, tests_A, gitHubUser_A,email_A,];
+
+        // console.log(data_Array);
+
+        // const readme_Text = genMd(data_Array);
+        writeToFile("README.md", readme_Text);
+
     });
+
+    // console.log(data_Array);
 
     // GET TEXT FROM OTHER JS FILE
     // const readme_Text = genMd(data_Array);
 
     // INIT FUNCTION FOR WRITING FILE
     // writeToFile("README.md", readme_Text);
-    writeToFile("README.md", `readme_Text`);
+    // writeToFile("README.md", `readme_Text`);
 
 }
 
 
 // WRITE README FILE
 function writeToFile(fileName, data) {
+    console.log("writeToFile ran");
+    console.log(data);
 
     // Creates the filename specified inside of the output folder and console logs event on completion
-    fs.writeFile(`./app_output/${fileName}`), data, (err) =>
-    err ? console.error(err) : console.log("File created in the app_output folder!");
+    // fs.writeFile(`./app_output/${fileName}`), data, (err) =>
+    // err ? console.error(err) : console.log("File created in the app_output folder!");
 
 }

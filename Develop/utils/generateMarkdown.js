@@ -228,6 +228,8 @@ var license_Section;
 
 function renderLicenseInfo(license) {
 
+  console.log("renderLicenseInfo ran");
+
   for (let i = 0; i < license_A_Array.length; i++) {
 
     if (license === license_A_Array[i][0]) {
@@ -255,6 +257,8 @@ function renderLicenseInfo(license) {
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
+  console.log("generateMarkdown ran");
+  console.log(data);
 
   // const data_Array = [
   //   0 title_A, 
@@ -269,9 +273,9 @@ function generateMarkdown(data) {
   //   9 email_A,
   // ];
 
-  // renderLicenseInfo(data[5]);
+  renderLicenseInfo(data[5]);
 
-  return `# 
+  return `# ${data[0]} 
 
 `;
   
