@@ -341,12 +341,19 @@ function writeToFile(fileName, data) {
     console.log("writeToFile ran");
     console.log(data);
 
-    fs.writeFile(`./app_output/${fileName}`);
+    // fs.writeFile(`./app_output/${fileName}`);
 
     // Creates the filename specified inside of the output folder and console logs event on completion
     // fs.writeFile(`./app_output/${fileName}`), data, (err) =>
     // err ? console.error(err) : console.log("File created in the app_output folder!");
 
     // fs.writeFileSync("ReadMe.md", inquirerResponse, data)
+
+
+    const readMeContent = genMd(data);
+
+    fs.writeFile(fileName, readMeContent, (err) =>
+      err ? console.log(err) : console.log('Successfully created README.md!')
+    );
 
 }
