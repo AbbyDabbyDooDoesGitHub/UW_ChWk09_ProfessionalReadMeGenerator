@@ -1,4 +1,4 @@
-// LICENSE ARRAY --------------------------------------
+// LICENSE ARRAY --------------------------------------------------
 // [
 //   0 ANSWER SELECTED,
 //   1 WHAT TO CALL THIS, 
@@ -220,14 +220,18 @@ var license_Array = [
 
 ];
 
+//GLOBAL VARIABLES ------------------------------------------------
+// LICENSE VARIABLES
 var license_Name = "";
 var license_Badge = "";
 var license_Link = "";
 var license_yn = false;
 
+// ALL TOGETHER VARIABLE THAT WILL BE RETURNED
 var allTogether;
 
-
+// FUNCTIONS FOR ASSEMBLING TEXT ----------------------------------
+// GET LICENSE INFO PARSED
 function renderLicenseInfo(reqData, data, optSections_yn) {
 
   // console.log("renderLicenseInfo ran");
@@ -242,6 +246,7 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
     reqData.license.Perl
   ];
 
+  // IF ANY SUB MENU HAS A RESULT, THAT IS USED
   for (let i = 0; i < license_complex.length; i++) {
 
     if (license_complex[i] != undefined ) {  
@@ -251,7 +256,7 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
 
   };
 
-
+  // MATCH THE LICENSE & PULL DATA FROM ARRAY
   for (let i = 0; i < license_Array.length; i++) {
 
     if (license === license_Array[i][0]) {
@@ -278,16 +283,20 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
 
 }
 
+// ASSEMBLE THE REST OF THE TEXT
 function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
 
+  // SETS STARTER FOR DOC ASSUMING DIRECTORY
   var directory_sect = "# "+reqData.title+"\n"+license_Badge+"\n\n\n## Description\n"+reqData.description+"\n\n\n## Table of Contents";
 
+  // SETS DEFAULT SECTIONS TO EMPTY STRINGS
   var installation_sect = ""; 
   var usage_sect = "";
   var license_sect = "";
   var contributing_sect = "";
   var tests_sect = "";
 
+  // ADDS INSTALLATION DIRECTORY & SECTION CONTENT
   if (optSections_yn[1]===true) {
     prevSect = directory_sect;
     directory_sect = prevSect + "\n- [Installation](#installation) ";
@@ -296,6 +305,7 @@ function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
     "\n\n\n## Installation\n" + data.installation;
   }
 
+  // ADDS USAGE DIRECTORY & SECTION CONTENT
   if (optSections_yn[2]===true) {
     prevSect = directory_sect;
     directory_sect = prevSect + "\n- [Usage](#usage)";
@@ -303,6 +313,7 @@ function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
     usage_sect = "\n\n\n## Usage\n"+data.usage;
   }
 
+  // ADDS LICENSE DIRECTORY & SECTION CONTENT
   if (license_yn===true) {
     prevSect = directory_sect;
     directory_sect = prevSect + "\n- [License](#license)";
@@ -310,6 +321,7 @@ function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
     license_sect = "\n\n\n## License\n### "+license_Name+"\n\nLicensed under the "+license_Name+" (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n"+ license_Link+"\n\nSee the License for the specific language governing permissions and limitations under the License.";
   }
 
+  // ADDS CONTRIBUTING DIRECTORY & SECTION CONTENT
   if (optSections_yn[3]===true) {
     prevSect = directory_sect;
     directory_sect = prevSect + "\n- [Contributing](#contributing)";
@@ -317,6 +329,7 @@ function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
     contributing_sect = "\n\n\n## Contributing\n"+data.contributing;
   }
 
+  // ADDS TESTS DIRECTORY & SECTION CONTENT
   if (optSections_yn[4]===true) {
     prevSect = directory_sect;
     directory_sect = prevSect + "\n- [Tests](#tests)";
@@ -324,34 +337,39 @@ function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
     tests_sect = "\n\n\n## Tests\n"+data.tests;
   }
 
+  // DIRECTORY SECTION
   if (optSections_yn[0]===false) {
+    // IF USER DOESN'T WANT A DIRECTORY, RESET THE SECTION
     directory_sect = "# "+reqData.title+"\n"+license_Badge+"\n\n\n## Description\n"+reqData.description;
 
   } else if (optSections_yn[0]===true) {
+    // IF USER WANTS A DIRECTORY, ADD CONTACT ME TO END
     prevSect = directory_sect;
     directory_sect = prevSect + "\n- [Contact Me](#contact-me)";
 
   }
 
-  allTogether =
-  directory_sect + installation_sect + usage_sect + license_sect + contributing_sect + tests_sect + 
+  // MAKE RETURN VAR PUT SECTIONS TOGETHER
+  allTogether = directory_sect + installation_sect + usage_sect + license_sect + contributing_sect + tests_sect + 
   "\n\n\n## Contact Me\nPlease reach out with any additional questions!\n - Github: ["+reqData.gitHubUser+"](https://github.com/"+reqData.gitHubUser+")\n- Email:  "+reqData.email;
 
+  // RETURN STRING FOR README
   return allTogether;
 
 }
 
 
-// TODO: Create a function to generate markdown for README
+// GENERATE MARKDOWN FUNCTION -------------------------------------
 function generateMarkdown(reqData, data, optSections_yn) {
+
   // console.log("generateMarkdown ran");
   // console.log(data);
 
   renderLicenseInfo(reqData, data, optSections_yn);
 
-
- return allTogether;
+  return allTogether;
 
 } 
 
+// EXPORT GENERATE MARKDOWN FUNCTION FOR USE IN INDEX.JS ----------
 module.exports = generateMarkdown;
