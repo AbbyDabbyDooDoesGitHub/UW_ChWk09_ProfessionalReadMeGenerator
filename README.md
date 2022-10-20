@@ -14,7 +14,7 @@ Because this application won’t be deployed, you’ll also need to provide a li
 
 ## Link to Video of App Demo: 
 [![Watch the Demo](https://img.youtube.com/vi/M7wFUsmOsSk/maxresdefault.jpg)](https://www.youtube.com/watch?v=M7wFUsmOsSk)
-
+[You can also check out this example of a ReadMe.md generated with the app.](/ReadMeApp/app_output/README.md)
 <!-- ## Notes -->
 <!-- Use this area to add personal notes on implementation, etc -->
 
