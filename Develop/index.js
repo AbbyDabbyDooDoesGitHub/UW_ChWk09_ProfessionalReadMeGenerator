@@ -262,7 +262,7 @@ function getOptionalInfo (array,reqAnswers) {
         // console.log("optSections_yn is " + optSections_yn);
 
         // INIT FUNCTION FOR WRITING FILE
-        writeToFile("README.md", reqAnswers, answers, optSections_yn);
+        writeToFile("./app_output/README.md", reqAnswers, answers, optSections_yn);
 
     })
     .catch((error) => {
