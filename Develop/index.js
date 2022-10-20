@@ -8,16 +8,16 @@ const genMd = require("./utils/generateMarkdown");
 
 
 // RESPONSE VARIABLES ---------------------------------
-var title_A;
-var description_A;
-var directory_YN = false;
-var installation_A;
-var usage_A;
-var license_A;
-var contributing_A;
-var tests_A;
-var gitHubUser_A;
-var email_A;
+// var title_A;
+// var description_A;
+// var directory_yn = false;
+// var installation_yn = false;
+// var usage_yn = false;
+// var license_A;
+// var contributing_yn = false;
+// var tests_yn = false;
+// var gitHubUser_A;
+// var email_A;
 
 
 // QUESTION ARRAY FOR USER INPUT (REQ) ----------------
@@ -215,25 +215,8 @@ function init() {
             // GET INFO FOR README
             inquirer.prompt(reqQuestions)
             .then((answers) => {
-            //   console.log(JSON.stringify(answers, null, 2));
-        
-              title_A = answers.title;
-              description_A = answers.description;
-              gitHubUser_A = answers.gitHubUser;
-              email_A = answers.email;
-        
-              var optsSelected = answers.sections;
-        
-              var license_simple = answers.license.simple;
-              var license_complex = answers.license.lBSD + answers.license.CreativeCommons + answers.license.lGNU + answers.license.OrgForEthicalSrc + answers.license.OpenDataCommons + answers.license.Perl;
-        
-              if (license_complex == "" || license_complex == null || license_complex == undefined) {
-                license_A = license_simple;
-              } else {
-                license_A = license_complex;
-              }
-        
-              getOptionalInfo(optsSelected);
+
+              getOptionalInfo(answers.sections,answers);
         
             })
             .catch((error) => {
@@ -254,34 +237,37 @@ function init() {
 
 
 // GET OPTIONAL INFO FOR README
-function getOptionalInfo (array) {
-
-    var readme_Text;
-
-    // MAKE SURE ARRAY RESPONSE IS EMPTY TO START
-    // license_Response = [];
+function getOptionalInfo (array,reqAnswers) {
 
     // CREATE EMPTY ARRAY FOR OPT QUESTIONS
     const optQuestions = [];
 
     // RESET VARIABLES
-    directory_YN = false;
-    installation_A = "";
-    usage_A = "";
-    contributing_A = "";
-    tests_A = "";
+    // const optSections_yn = [directory_yn, installation_yn, usage_yn, contributing_yn, tests_yn];
+
+    var optSections_yn = [false, false, false, false, false];
+
+    // directory_yn = false;
+    // installation_yn = false;
+    // usage_yn = false;
+    // contributing_yn = false;
+    // tests_yn = false;
 
     // FIGURE OUT WHAT OPTIONAL SECTS ARE NEEDED
     for (let i = 0; i < array.length; i++) {
         if (array[i] === "Table of Contents") {
-            directory_YN = true;
+            optSections_yn[0] = true;
         } else if (array[i] === "Installation") {
+            optSections_yn[1] = true;
             optQuestions.push(optQuestions_installation);
         } else if (array[i] === "Usage") {
+            optSections_yn[2] = true;
             optQuestions.push(optQuestions_usage);
         } else if (array[i] === "Contributing") {
+            optSections_yn[3] = true;
             optQuestions.push(optQuestions_contributing);
         } else if (array[i] === "Tests") {
+            optSections_yn[4] = true;
             optQuestions.push(optQuestions_tests);
         }
     }
@@ -291,12 +277,13 @@ function getOptionalInfo (array) {
     // ASK OPTIONAL QUESTIONS
     inquirer.prompt(optQuestions)
     .then((answers) => {
-        console.log(JSON.stringify(answers, null, 2));
 
-        installation_A = answers.installation;
-        usage_A = answers.usage;
-        contributing_A = answers.contributing;
-        tests_A = answers.tests;
+        // console.log(JSON.stringify(answers, null, 2));
+        console.log("optSections_yn is " + optSections_yn);
+
+        // INIT FUNCTION FOR WRITING FILE
+        writeToFile("README.md", reqAnswers, answers, optSections_yn);
+
     })
     .catch((error) => {
         if (error.isTtyError) {
@@ -304,53 +291,18 @@ function getOptionalInfo (array) {
         } else {
             console.log(error)
         }
-    })
-    .then((answers) => {
-        var data_Array = [title_A, description_A, directory_YN, installation_A, usage_A, license_A, contributing_A, tests_A, gitHubUser_A,email_A,];
-
-        console.log(data_Array);
-
-        readme_Text = genMd(data_Array);
-        // writeToFile("README.md", readme_Text);
-
-    })
-    .then((answers) => {
-        // var data_Array = [title_A, description_A, directory_YN, installation_A, usage_A, license_A, contributing_A, tests_A, gitHubUser_A,email_A,];
-
-        // console.log(data_Array);
-
-        // const readme_Text = genMd(data_Array);
-        writeToFile("README.md", readme_Text);
-
     });
 
-    // console.log(data_Array);
-
-    // GET TEXT FROM OTHER JS FILE
-    // const readme_Text = genMd(data_Array);
-
-    // INIT FUNCTION FOR WRITING FILE
-    // writeToFile("README.md", readme_Text);
-    // writeToFile("README.md", `readme_Text`);
 
 }
 
 
 // WRITE README FILE
-function writeToFile(fileName, data) {
+function writeToFile(fileName, reqData, data, optSections_yn) {
     console.log("writeToFile ran");
     console.log(data);
 
-    // fs.writeFile(`./app_output/${fileName}`);
-
-    // Creates the filename specified inside of the output folder and console logs event on completion
-    // fs.writeFile(`./app_output/${fileName}`), data, (err) =>
-    // err ? console.error(err) : console.log("File created in the app_output folder!");
-
-    // fs.writeFileSync("ReadMe.md", inquirerResponse, data)
-
-
-    const readMeContent = genMd(data);
+    const readMeContent = genMd(reqData, data, optSections_yn);
 
     fs.writeFile(fileName, readMeContent, (err) =>
       err ? console.log(err) : console.log('Successfully created README.md!')

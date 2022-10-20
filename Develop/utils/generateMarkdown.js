@@ -4,7 +4,7 @@
 //   1 WHAT TO CALL THIS, 
 //   2 BADGE, 3 EXTRA BADGE, 4 WEB LINK,
 // ]
-var license_A_Array = [
+var license_Array = [
 
   [
     "SKIP THIS PART - Proceed with No License",
@@ -220,31 +220,55 @@ var license_A_Array = [
 
 ];
 
-var license_Name;
-var license_Badge;
-var license_Link;
-var license_Section;
+var license_Name = "";
+var license_Badge = "";
+var license_Link = "";
+var license_yn = false;
+
+var allTogether;
 
 
-function renderLicenseInfo(license) {
+function renderLicenseInfo(reqData, data, optSections_yn) {
 
   console.log("renderLicenseInfo ran");
+  console.log(reqData.license.lBSD+" + "+reqData.license.CreativeCommons+" + "+reqData.license.lGNU+" + "+reqData.license.OrgForEthicalSrc+" + "+reqData.license.OpenDataCommons+" + "+reqData.license.Perl);
 
-  for (let i = 0; i < license_A_Array.length; i++) {
+  var license;
+  var license_simple = reqData.license.simple;
+  var license_complex = reqData.license.lBSD + reqData.license.CreativeCommons + reqData.license.lGNU + reqData.license.OrgForEthicalSrc + reqData.license.OpenDataCommons + reqData.license.Perl;
 
-    if (license === license_A_Array[i][0]) {
+  console.log("license_complex is " + license_complex);
 
-      license_Name  = license_A_Array[i][1];
-      license_Badge = license_A_Array[i][2] + " " + license_A_Array[i][3];
-      license_Link  = license_A_Array[i][4];
+  if (license_complex == "" || license_complex == null || license_complex == undefined || license_complex == "NaN") {
+    console.log("license = license_simple");
+
+    license = license_simple;
+  } else {
+    console.log("license = license_complex");
+
+    license = license_complex;
+  }
+
+
+  for (let i = 0; i < license_Array.length; i++) {
+
+    if (license === license_Array[i][0]) {
+
+      license_Name  = license_Array[i][1];
+      license_Badge = license_Array[i][2] + " " + license_Array[i][3];
+      license_Link  = license_Array[i][4];
       
       if (license_Name === "") {
 
-        license_Section = "";
+        console.log("license_Name blank");
+
+        license_yn = false;
 
       } else {
 
-        license_Section = "Licensed under the " + license_Name + " (the \"License\")\; you may not use this file except in compliance with the License. You may obtain a copy of the License at \n\n" + license_Link + "\n\nSee the License for the specific language governing permissions and limitations under the License.";
+        console.log("license_Name NOT blank");
+
+        license_yn = true;
 
       }
 
@@ -252,77 +276,138 @@ function renderLicenseInfo(license) {
 
   }
 
+  renderOptionalSections(reqData, data, optSections_yn, license_yn);
+
+}
+
+function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
+
+  var directory_sect =     
+  `# ${reqData.title}
+  ${license_Badge}
+
+  ## Description
+  ${reqData.description}
+      
+  ## Table of Contents`;
+
+  var installation_sect = ``; 
+  var usage_sect = ``;
+  var license_sect = ``;
+  var contributing_sect = ``;
+  var tests_sect = ``;
+
+  if (optSections_yn[1]===true) {
+    prevSect = directory_sect;
+    directory_sect = prevSect + 
+    `    
+    - [Installation](#installation) `;
+
+    installation_sect = 
+    `
+    ## Installation
+    ${data.installation}
+    
+    `;
+  }
+
+  if (optSections_yn[2]===true) {
+    prevSect = directory_sect;
+    directory_sect = prevSect + 
+    `    
+    - [Usage](#usage) `;
+
+    usage_sect = 
+    `
+    ## Usage
+    ${data.usage}
+    
+    `;
+  }
+
+  if (license_yn===true) {
+    prevSect = directory_sect;
+    directory_sect = prevSect + 
+    `    
+    - [License](#license) `;
+
+    license_sect = 
+    `
+    ## License
+    ### ${license_Name}
+    ${license_Badge}
+    Licensed under the ${license_Name} (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+     
+    ${license_Link}
+
+    See the License for the specific language governing permissions and limitations under the License.
+    
+    `;
+  }
+
+  if (optSections_yn[3]===true) {
+    prevSect = directory_sect;
+    directory_sect = prevSect + 
+    `    
+    - [Contributing](#contributing) `;
+
+    contributing_sect = 
+    `
+    ## Contributing
+    ${data.contributing}
+    
+    `;
+  }
+
+  if (optSections_yn[4]===true) {
+    prevSect = directory_sect;
+    directory_sect = prevSect + 
+    `    
+    - [Tests](#tests) `;
+
+    tests_sect = 
+    `
+    ## Tests
+    ${data.tests}
+    
+    `;
+  }
+
+  if (optSections_yn[0]===false) {
+    directory_sect = 
+    `# ${reqData.title}
+    ${license_Badge}
+  
+    ## Description
+    ${reqData.description}`;
+
+  }
+
+  allTogether =
+  directory_sect + installation_sect + usage_sect + license_sect + contributing_sect + tests_sect + 
+  `
+  
+  ## Questions
+  Please reach out with any additional questions!
+  - Github: [${reqData.gitHubUser}](https://github.com/${reqData.gitHubUser})
+  - Email:  ${reqData.email}
+  `;
+
+  return allTogether;
+
 }
 
 
 // TODO: Create a function to generate markdown for README
-function generateMarkdown(data) {
+function generateMarkdown(reqData, data, optSections_yn) {
   console.log("generateMarkdown ran");
-  console.log(data);
+  // console.log(data);
 
-  // const data_Array = [
-  //   0 title_A, 
-  //   1 description_A, 
-  //   2 directory_YN, 
-  //   3 installation_A, 
-  //   4 usage_A, 
-  //   5 license_A, 
-  //   6 contributing_A, 
-  //   7 tests_A, 
-  //   8 gitHubUser_A,
-  //   9 email_A,
-  // ];
-
-  renderLicenseInfo(data[5]);
-
-  return `# ${data[0]} 
-
-`;
-  
+  renderLicenseInfo(reqData, data, optSections_yn);
 
 
-//   return `# ${data[0]}
-//   I enter my project title > this is displayed as the title of the README
-//   ## Description
-//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
-  
-//   ## Table of Contents  
-//   //   0 title_A, 
-//   //   1 description_A, 
-//   //   2 directory_YN, 
-//   //   3 installation_A, 
-//   //   4 usage_A, 
-//   //   5 license_A, 
-//   //   6 contributing_A, 
-//   //   7 tests_A, 
-//   //   8 gitHubUser_A,
-//   //   9 email_A,
-  
-//   The anchor link for that heading is the lowercase heading name with dashes where there are spaces. You can always get the anchor name by visiting the README on Github.com and clicking on the anchor that appears when you hover to the left of the heading. Copy everything starting at the #:
-//   #real-cool-heading
-  
-//   Wherever you want to link to your Real Cool Heading section, put your desired text in brackets, followed by the anchor link in parentheses:
-//   [Go to Real Cool Heading section](#real-cool-heading) -->
-  
-//   ## Installation
-//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
-  
-//   ## Usage
-//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
-  
-//   ## License
-//   I choose a license for my application from a list of options > a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
-  
-//   ## Contributing
-//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
-  
-//   ## Tests
-//   I enter a description, installation instructions, usage information, contribution guidelines, and test instructions > this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
-  
-//   ## Questions
-//   I enter my GitHub username > this is added to the section of the README entitled Questions, with a link to my GitHub profile
-//   I enter my email address > this is added to the section of the README entitled Questions, with instructions on how to reach me with additional questions
-// `;
+ return allTogether;
+
 } 
 
 module.exports = generateMarkdown;
