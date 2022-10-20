@@ -230,8 +230,7 @@ var allTogether;
 
 function renderLicenseInfo(reqData, data, optSections_yn) {
 
-  console.log("renderLicenseInfo ran");
-  console.log(reqData.license.lBSD+" + "+reqData.license.CreativeCommons+" + "+reqData.license.lGNU+" + "+reqData.license.OrgForEthicalSrc+" + "+reqData.license.OpenDataCommons+" + "+reqData.license.Perl);
+  // console.log("renderLicenseInfo ran");
 
   var license = reqData.license.simple;
   var license_complex = [
@@ -245,10 +244,9 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
 
   for (let i = 0; i < license_complex.length; i++) {
 
-    if (license_complex[i] != undefined ) {
-      console.log("license = license_simple");
-  
+    if (license_complex[i] != undefined ) {  
       license = license_complex[i];
+
     };
 
   };
@@ -264,13 +262,9 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
       
       if (license_Name === "") {
 
-        console.log("license_Name blank");
-
         license_yn = false;
 
       } else {
-
-        console.log("license_Name NOT blank");
 
         license_yn = true;
 
@@ -286,7 +280,7 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
 
 function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
 
-  var directory_sect = "# "+reqData.title+"\n"+license_Badge+"\n\n## Description\n"+reqData.description+"\n\n\n## Table of Contents";
+  var directory_sect = "# "+reqData.title+"\n"+license_Badge+"\n\n\n## Description\n"+reqData.description+"\n\n\n## Table of Contents";
 
   var installation_sect = ""; 
   var usage_sect = "";
@@ -350,7 +344,7 @@ function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(reqData, data, optSections_yn) {
-  console.log("generateMarkdown ran");
+  // console.log("generateMarkdown ran");
   // console.log(data);
 
   renderLicenseInfo(reqData, data, optSections_yn);

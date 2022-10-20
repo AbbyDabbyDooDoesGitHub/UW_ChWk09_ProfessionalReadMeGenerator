@@ -1,4 +1,4 @@
-// PACKAGES REQUIRED ----------------------------------
+// PACKAGES REQUIRED ----------------------------------------------
 // FOR IN TEMINAL QUESTIONS
 const inquirer = require("inquirer");
 // FOR CREATING FILES
@@ -7,20 +7,7 @@ const fs = require("fs");
 const genMd = require("./utils/generateMarkdown");
 
 
-// RESPONSE VARIABLES ---------------------------------
-// var title_A;
-// var description_A;
-// var directory_yn = false;
-// var installation_yn = false;
-// var usage_yn = false;
-// var license_A;
-// var contributing_yn = false;
-// var tests_yn = false;
-// var gitHubUser_A;
-// var email_A;
-
-
-// QUESTION ARRAY FOR USER INPUT (REQ) ----------------
+// QUESTION ARRAY FOR USER INPUT (REQ) ----------------------------
 const reqQuestions = [
     {
         type: "list",
@@ -163,7 +150,7 @@ const reqQuestions = [
 
 ];
 
-// QUESTION ARRAY FOR USER INPUT (OPT) ----------------
+// QUESTION ARRAY FOR USER INPUT (OPT) ----------------------------
 // INSTALLATION QUESTION
 const optQuestions_installation = {
     type: "input",
@@ -193,12 +180,12 @@ const optQuestions_tests = {
 };
 
 
-// RUN ON LOAD ----------------------------------------
+// RUN ON LOAD ----------------------------------------------------
 init();
 
 
-// FUNCTIONS ------------------------------------------
-// INITIALIZE APP 
+// QUESTION FUNCTIONS ---------------------------------------------
+// INITIALIZE APP, CONFIRM NEW README, TRIGGER Q's 
 function init() {
 
     inquirer.prompt([
@@ -212,11 +199,11 @@ function init() {
     .then((answers) => {
         var confirmNew_A = answers.confirmNew;
         if (confirmNew_A === true) {
-            // GET INFO FOR README
+            // GET REQUIRED INFO FOR README
             inquirer.prompt(reqQuestions)
             .then((answers) => {
-
-              getOptionalInfo(answers.sections,answers);
+                // GET OPTIONAL INFO FOR README
+                getOptionalInfo(answers.sections,answers);
         
             })
             .catch((error) => {
@@ -229,6 +216,7 @@ function init() {
         } else {
             // EXIT MENU - DO NOT GENERATE README
             console.log("Okay! Run index.js again when you are ready to generate a README.md");
+
             // console.log(confirmNew_A);
         }
     });
@@ -242,16 +230,8 @@ function getOptionalInfo (array,reqAnswers) {
     // CREATE EMPTY ARRAY FOR OPT QUESTIONS
     const optQuestions = [];
 
-    // RESET VARIABLES
-    // const optSections_yn = [directory_yn, installation_yn, usage_yn, contributing_yn, tests_yn];
-
+    // OPTIONS SELECTED ARRAY - BOOLEANS
     var optSections_yn = [false, false, false, false, false];
-
-    // directory_yn = false;
-    // installation_yn = false;
-    // usage_yn = false;
-    // contributing_yn = false;
-    // tests_yn = false;
 
     // FIGURE OUT WHAT OPTIONAL SECTS ARE NEEDED
     for (let i = 0; i < array.length; i++) {
@@ -279,7 +259,7 @@ function getOptionalInfo (array,reqAnswers) {
     .then((answers) => {
 
         // console.log(JSON.stringify(answers, null, 2));
-        console.log("optSections_yn is " + optSections_yn);
+        // console.log("optSections_yn is " + optSections_yn);
 
         // INIT FUNCTION FOR WRITING FILE
         writeToFile("README.md", reqAnswers, answers, optSections_yn);
@@ -293,14 +273,13 @@ function getOptionalInfo (array,reqAnswers) {
         }
     });
 
-
 }
 
 
-// WRITE README FILE
+// WRITE README FILE ----------------------------------------------
 function writeToFile(fileName, reqData, data, optSections_yn) {
-    console.log("writeToFile ran");
-    console.log(data);
+    // console.log("writeToFile ran");
+    // console.log(data);
 
     const readMeContent = genMd(reqData, data, optSections_yn);
 
