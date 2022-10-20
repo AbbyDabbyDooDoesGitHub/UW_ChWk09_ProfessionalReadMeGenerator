@@ -12,14 +12,10 @@ node index.js
 
 Because this application won’t be deployed, you’ll also need to provide a link to a walkthrough video that demonstrates its functionality. 
 
-## Link to Video of App Function: 
-<!-- LINK TO DEPLOYMENT HERE -->
+## Link to Video of App Demo: 
+[![Watch the Demo](https://img.youtube.com/vi/M7wFUsmOsSk/maxresdefault.jpg)](https://www.youtube.com/watch?v=M7wFUsmOsSk)
 
-<!-- ## App Preview: -->
-<!-- Replace with path to screenshot   ![My Password Generator Screenshot](./Assets/MyPasswordGeneratorScreenShot.PNG "My Password Generator Screenshot") -->
-
-## Notes
-
+<!-- ## Notes -->
 <!-- Use this area to add personal notes on implementation, etc -->
 
 ## User Story
