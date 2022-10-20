@@ -233,21 +233,25 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
   console.log("renderLicenseInfo ran");
   console.log(reqData.license.lBSD+" + "+reqData.license.CreativeCommons+" + "+reqData.license.lGNU+" + "+reqData.license.OrgForEthicalSrc+" + "+reqData.license.OpenDataCommons+" + "+reqData.license.Perl);
 
-  var license;
-  var license_simple = reqData.license.simple;
-  var license_complex = reqData.license.lBSD + reqData.license.CreativeCommons + reqData.license.lGNU + reqData.license.OrgForEthicalSrc + reqData.license.OpenDataCommons + reqData.license.Perl;
+  var license = reqData.license.simple;
+  var license_complex = [
+    reqData.license.lBSD, 
+    reqData.license.CreativeCommons, 
+    reqData.license.lGNU,
+    reqData.license.OrgForEthicalSrc,
+    reqData.license.OpenDataCommons,
+    reqData.license.Perl
+  ];
 
-  console.log("license_complex is " + license_complex);
+  for (let i = 0; i < license_complex.length; i++) {
 
-  if (license_complex == "" || license_complex == null || license_complex == undefined || license_complex == "NaN") {
-    console.log("license = license_simple");
+    if (license_complex[i] != undefined ) {
+      console.log("license = license_simple");
+  
+      license = license_complex[i];
+    };
 
-    license = license_simple;
-  } else {
-    console.log("license = license_complex");
-
-    license = license_complex;
-  }
+  };
 
 
   for (let i = 0; i < license_Array.length; i++) {
@@ -274,7 +278,7 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
 
     }
 
-  }
+  };
 
   renderOptionalSections(reqData, data, optSections_yn, license_yn);
 
@@ -282,116 +286,62 @@ function renderLicenseInfo(reqData, data, optSections_yn) {
 
 function renderOptionalSections(reqData, data, optSections_yn, license_yn) {
 
-  var directory_sect =     
-  `# ${reqData.title}
-  ${license_Badge}
+  var directory_sect = "# "+reqData.title+"\n"+license_Badge+"\n\n## Description\n"+reqData.description+"\n\n\n## Table of Contents";
 
-  ## Description
-  ${reqData.description}
-      
-  ## Table of Contents`;
-
-  var installation_sect = ``; 
-  var usage_sect = ``;
-  var license_sect = ``;
-  var contributing_sect = ``;
-  var tests_sect = ``;
+  var installation_sect = ""; 
+  var usage_sect = "";
+  var license_sect = "";
+  var contributing_sect = "";
+  var tests_sect = "";
 
   if (optSections_yn[1]===true) {
     prevSect = directory_sect;
-    directory_sect = prevSect + 
-    `    
-    - [Installation](#installation) `;
+    directory_sect = prevSect + "\n- [Installation](#installation) ";
 
     installation_sect = 
-    `
-    ## Installation
-    ${data.installation}
-    
-    `;
+    "\n\n\n## Installation\n" + data.installation;
   }
 
   if (optSections_yn[2]===true) {
     prevSect = directory_sect;
-    directory_sect = prevSect + 
-    `    
-    - [Usage](#usage) `;
+    directory_sect = prevSect + "\n- [Usage](#usage)";
 
-    usage_sect = 
-    `
-    ## Usage
-    ${data.usage}
-    
-    `;
+    usage_sect = "\n\n\n## Usage\n"+data.usage;
   }
 
   if (license_yn===true) {
     prevSect = directory_sect;
-    directory_sect = prevSect + 
-    `    
-    - [License](#license) `;
+    directory_sect = prevSect + "\n- [License](#license)";
 
-    license_sect = 
-    `
-    ## License
-    ### ${license_Name}
-    ${license_Badge}
-    Licensed under the ${license_Name} (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-     
-    ${license_Link}
-
-    See the License for the specific language governing permissions and limitations under the License.
-    
-    `;
+    license_sect = "\n\n\n## License\n### "+license_Name+"\n\nLicensed under the "+license_Name+" (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n"+ license_Link+"\n\nSee the License for the specific language governing permissions and limitations under the License.";
   }
 
   if (optSections_yn[3]===true) {
     prevSect = directory_sect;
-    directory_sect = prevSect + 
-    `    
-    - [Contributing](#contributing) `;
+    directory_sect = prevSect + "\n- [Contributing](#contributing)";
 
-    contributing_sect = 
-    `
-    ## Contributing
-    ${data.contributing}
-    
-    `;
+    contributing_sect = "\n\n\n## Contributing\n"+data.contributing;
   }
 
   if (optSections_yn[4]===true) {
     prevSect = directory_sect;
-    directory_sect = prevSect + 
-    `    
-    - [Tests](#tests) `;
+    directory_sect = prevSect + "\n- [Tests](#tests)";
 
-    tests_sect = 
-    `
-    ## Tests
-    ${data.tests}
-    
-    `;
+    tests_sect = "\n\n\n## Tests\n"+data.tests;
   }
 
   if (optSections_yn[0]===false) {
-    directory_sect = 
-    `# ${reqData.title}
-    ${license_Badge}
-  
-    ## Description
-    ${reqData.description}`;
+    directory_sect = "# "+reqData.title+"\n"+license_Badge+"\n\n\n## Description\n"+reqData.description;
+
+  } else if (optSections_yn[0]===true) {
+    prevSect = directory_sect;
+    directory_sect = prevSect + "\n- [Contact Me](#contact-me)";
 
   }
 
   allTogether =
   directory_sect + installation_sect + usage_sect + license_sect + contributing_sect + tests_sect + 
-  `
-  
-  ## Questions
-  Please reach out with any additional questions!
-  - Github: [${reqData.gitHubUser}](https://github.com/${reqData.gitHubUser})
-  - Email:  ${reqData.email}
-  `;
+  "\n\n\n## Contact Me\nPlease reach out with any additional questions!\n - Github: ["+reqData.gitHubUser+"](https://github.com/"+reqData.gitHubUser+")\n- Email:  "+reqData.email;
 
   return allTogether;
 
